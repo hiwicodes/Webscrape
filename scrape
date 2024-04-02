@@ -1,0 +1,30 @@
+import requests
+from bs4 import BeautifulSoup
+
+def scrape_webpage(url):
+    try:
+        # Send a GET request to the specified URL
+        response = requests.get(url)
+        
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Parse the HTML content of the webpage using BeautifulSoup
+            soup = BeautifulSoup(response.content, 'html.parser')
+            
+            # Extract and print the title of the webpage
+            title = soup.title.text.strip()
+            print(f"Title: {title}")
+            
+            # Extract and print other desired information from the webpage
+            # Example: Extract all paragraphs from the webpage
+            paragraphs = soup.find_all('p')
+            for paragraph in paragraphs:
+                print(paragraph.text)
+        else:
+            print(f"Failed to retrieve webpage. Status code: {response.status_code}")
+    except Exception as e:
+        print(f"Error occurred: {e}")
+
+# Example usage: Pass the URL of the webpage you want to scrape
+url_to_scrape = input("Enter the URL of the webpage to scrape: ")
+scrape_webpage(url_to_scrape)
